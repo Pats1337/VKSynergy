@@ -1,4 +1,4 @@
-package com.example.vksynergy
+package com.pats1337.vksynergy
 
 import org.junit.Test
 
