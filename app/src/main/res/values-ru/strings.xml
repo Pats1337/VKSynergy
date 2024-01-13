@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">VK Synergy</string>
     <string name="login">Авторизоваться</string>
-    <integer name="com_vk_sdk_AppId">51830054</integer>
     <string name="logout">Выйти из системы</string>
 </resources>

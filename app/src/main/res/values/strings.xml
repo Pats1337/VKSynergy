@@ -2,5 +2,4 @@
     <string name="app_name">VK Synergy</string>
     <string name="login">Authorize</string>
     <string name="logout">Logout</string>
-    <integer name="com_vk_sdk_AppId">51830054</integer>
 </resources>
