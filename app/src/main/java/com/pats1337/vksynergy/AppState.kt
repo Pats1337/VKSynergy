@@ -1,6 +1,9 @@
 package com.pats1337.vksynergy
 
 sealed class AppState {
-    object LoggedIn : AppState()
-    object NotLoggedIn : AppState()
+    var userId: Long? = null
+
+    object SignedIn : AppState()
+
+    object NotSignedIn : AppState()
 }

@@ -18,13 +18,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SignHost(config: SignConfig) {
+fun SignConnect(
+    iconId: Int,
+    welcomeText: String,
+    buttonTextId: Int,
+    onButtonClick: () -> Unit
+) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top
     ) {
         Image(
-            painter = painterResource(id = config.iconResourceId),
+            painter = painterResource(id = iconId),
             contentDescription = "icon",
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
@@ -35,7 +40,7 @@ fun SignHost(config: SignConfig) {
         Text(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally),
-            text = config.welcomeText,
+            text = welcomeText,
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.headlineMedium
         )
@@ -47,10 +52,10 @@ fun SignHost(config: SignConfig) {
                 .padding(top = 24.dp, start = 16.dp, end = 16.dp),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-            onClick = { config.onButtonClick.invoke() }
+            onClick = onButtonClick
         ) {
             Text(
-                text = stringResource(id = config.buttonTextId),
+                text = stringResource(id = buttonTextId),
                 style = MaterialTheme.typography.bodyLarge
             )
         }

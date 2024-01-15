@@ -6,13 +6,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.pats1337.vksynergy.ui.theme.VKSynergyTheme
 
 @Composable
-fun AuthScreen(
-    signConfig: SignConfig
+fun SignScreen(
+    state: AppState, onSignInClick: () -> Unit, onSignOutClick: () -> Unit
 ) {
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -21,7 +20,10 @@ fun AuthScreen(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Top
         ) {
-            SignHost(signConfig)
+            when (state){
+                is AppState.SignedIn -> SignOutScreen(state, onSignOutClick)
+                is AppState.NotSignedIn -> SignInScreen(onSignInClick)
+            }
         }
     }
 }
@@ -30,19 +32,6 @@ fun AuthScreen(
 @Preview
 fun AuthScreenPreview() {
     VKSynergyTheme {
-        AuthScreen(
-            signConfig = SignConfig(
-                welcomeText = stringResource(id = R.string.app_name),
-                buttonTextId = R.string.logout,
-                iconResourceId = R.drawable.person,
-                onButtonClick = {})
-        )
+
     }
 }
-
-data class SignConfig(
-    val welcomeText: String,
-    val buttonTextId: Int,
-    val iconResourceId: Int,
-    val onButtonClick: () -> Unit
-)
