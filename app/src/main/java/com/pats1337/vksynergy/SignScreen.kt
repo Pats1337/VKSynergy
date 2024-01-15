@@ -11,7 +11,7 @@ import com.pats1337.vksynergy.ui.theme.VKSynergyTheme
 
 @Composable
 fun SignScreen(
-    state: AppState, onSignInClick: () -> Unit, onSignOutClick: () -> Unit
+    state: SignState, onSignInClick: () -> Unit, onSignOutClick: () -> Unit
 ) {
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -20,9 +20,9 @@ fun SignScreen(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Top
         ) {
-            when (state){
-                is AppState.SignedIn -> SignOutScreen(state, onSignOutClick)
-                is AppState.NotSignedIn -> SignInScreen(onSignInClick)
+            when (state) {
+                is SignState.SignedIn -> SignOutScreen(state, onSignOutClick)
+                is SignState.NotSignedIn -> SignInScreen(onSignInClick)
             }
         }
     }
@@ -30,8 +30,12 @@ fun SignScreen(
 
 @Composable
 @Preview
-fun AuthScreenPreview() {
+fun SignScreenPreview() {
     VKSynergyTheme {
-
+        SignScreen(
+            state = SignState.NotSignedIn,
+            onSignInClick = { },
+            onSignOutClick = { }
+        )
     }
 }

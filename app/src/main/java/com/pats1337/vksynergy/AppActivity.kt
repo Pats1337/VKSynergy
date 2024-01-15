@@ -20,16 +20,16 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class AppActivity : ComponentActivity() {
 
-    var authState: AppState by mutableStateOf(
-        AppState.NotSignedIn
+    var authState: SignState by mutableStateOf(
+        SignState.NotSignedIn
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         authState = if (VK.isLoggedIn()) {
-            AppState.SignedIn
+            SignState.SignedIn
         } else {
-            AppState.NotSignedIn
+            SignState.NotSignedIn
         }
         setContent {
             VKSynergyTheme {
@@ -45,13 +45,13 @@ class AppActivity : ComponentActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val callback = object : VKAuthCallback {
             override fun onLogin(token: VKAccessToken) {
-                authState = AppState.SignedIn
+                authState = SignState.SignedIn
                 authState.userId = token.userId.value
                 Log.d("token", token.userId.toString())
             }
 
             override fun onLoginFailed(authException: VKAuthException) {
-                authState = AppState.NotSignedIn
+                authState = SignState.NotSignedIn
                 authState.userId = -1
                 Log.d(this::class.java.simpleName, authException.toString())
             }
@@ -68,7 +68,7 @@ class AppActivity : ComponentActivity() {
     private fun handleSignOut() {
         VK.logout()
         authState.userId = -1
-        authState = AppState.NotSignedIn
+        authState = SignState.NotSignedIn
     }
 
 }

@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">VK Synergy</string>
-    <string name="signin">Authorize</string>
-    <string name="signout">Logout</string>
+    <string name="signin">Sign in</string>
+    <string name="signout">Sign out</string>
 </resources>

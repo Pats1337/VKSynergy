@@ -2,6 +2,7 @@ package com.pats1337.vksynergy
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun SignInScreen(onSignInClick: () -> Unit) {
@@ -11,4 +12,10 @@ fun SignInScreen(onSignInClick: () -> Unit) {
         buttonTextId = R.string.signin,
         onButtonClick = onSignInClick
     )
+}
+
+@Preview
+@Composable
+fun SignInScreenPreview(){
+    SignInScreen(onSignInClick = {})
 }
