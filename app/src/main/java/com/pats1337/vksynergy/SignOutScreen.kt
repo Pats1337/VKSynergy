@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun SignOutScreen(state: AppState, onSignOutClick: () -> Unit) {
-    SignConnect(
+    SignContent(
         iconId = R.drawable.person,
         welcomeText = state.userId.toString(),
         buttonTextId = R.string.signout,

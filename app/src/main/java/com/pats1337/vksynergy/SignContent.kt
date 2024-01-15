@@ -18,7 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SignConnect(
+fun SignContent(
     iconId: Int,
     welcomeText: String,
     buttonTextId: Int,
