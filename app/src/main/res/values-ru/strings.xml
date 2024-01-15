@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">VK Synergy</string>
+    <string name="signin">Авторизоваться</string>
+    <string name="signout">Выйти из системы</string>
+</resources>

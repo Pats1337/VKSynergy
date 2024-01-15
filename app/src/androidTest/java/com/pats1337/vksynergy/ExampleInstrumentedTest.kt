@@ -1,4 +1,4 @@
-package com.example.vksynergy
+package com.pats1337.vksynergy
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
