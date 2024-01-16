@@ -1,6 +1,7 @@
 package com.pats1337.vksynergy
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 
@@ -16,6 +17,6 @@ fun SignInScreen(state: SignState.NotSignedIn, onSignInClick: () -> Unit) {
 
 @Preview
 @Composable
-fun SignInScreenPreview(){
+fun SignInScreenPreview() {
     SignInScreen(state = SignState.NotSignedIn(), onSignInClick = {})
 }

@@ -9,7 +9,7 @@ fun SignOutScreen(state: SignState.SignedIn, onSignOutClick: () -> Unit) {
         iconId = state.iconId,
         welcomeText = state.userId.toString(),
         buttonTextId = state.buttonTextId,
-        onButtonClick = { onSignOutClick }
+        onButtonClick = onSignOutClick
     )
 }
 

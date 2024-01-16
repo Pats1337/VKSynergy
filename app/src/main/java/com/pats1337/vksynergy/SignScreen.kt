@@ -18,8 +18,7 @@ import com.pats1337.vksynergy.ui.theme.VKSynergyTheme
 fun SignScreen(
 ) {
     val activity: AppActivity = LocalContext.current as AppActivity
-    val viewModel: SignScreenViewModel = viewModel()
-    val rememberedViewModel = remember { viewModel }
+    val viewModel: SignScreenViewModel = remember(viewModel())
     val state by viewModel.signState.collectAsState()
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -27,15 +26,16 @@ fun SignScreen(
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Top
+
         ) {
             when (val subState = state) {
                 is SignState.SignedIn -> SignOutScreen(
                     subState
-                ) { rememberedViewModel.handleSignIn(activity) }
+                ) { viewModel.handleSignOut() }
 
                 is SignState.NotSignedIn -> SignInScreen(
                     subState
-                ) { rememberedViewModel.handleSignOut() }
+                ) { viewModel.handleSignIn(activity) }
             }
         }
     }
