@@ -5,11 +5,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun SignInScreen(onSignInClick: () -> Unit) {
+fun SignInScreen(state: SignState.NotSignedIn, onSignInClick: () -> Unit) {
     SignContent(
-        iconId = R.drawable.all_inclusive,
-        welcomeText = stringResource(id = R.string.app_name),
-        buttonTextId = R.string.signin,
+        iconId = state.iconId,
+        welcomeText = stringResource(id = state.welcomeTextId),
+        buttonTextId = state.buttonTextId,
         onButtonClick = onSignInClick
     )
 }
@@ -17,5 +17,5 @@ fun SignInScreen(onSignInClick: () -> Unit) {
 @Preview
 @Composable
 fun SignInScreenPreview(){
-    SignInScreen(onSignInClick = {})
+    SignInScreen(state = SignState.NotSignedIn(), onSignInClick = {})
 }

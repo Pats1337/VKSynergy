@@ -7,14 +7,19 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pats1337.vksynergy.ui.theme.VKSynergyTheme
 
 @Composable
 fun SignScreen(
-    viewModel: SignScreenViewModel, onSignInClick: () -> Unit, onSignOutClick: () -> Unit
 ) {
+    val activity: AppActivity = LocalContext.current as AppActivity
+    val viewModel: SignScreenViewModel = viewModel()
+    val rememberedViewModel = remember { viewModel }
     val state by viewModel.signState.collectAsState()
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -23,9 +28,14 @@ fun SignScreen(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Top
         ) {
-            when (state) {
-                is SignState.SignedIn -> SignOutScreen(state as SignState.SignedIn, onSignOutClick)
-                is SignState.NotSignedIn -> SignInScreen(onSignInClick)
+            when (val subState = state) {
+                is SignState.SignedIn -> SignOutScreen(
+                    subState
+                ) { rememberedViewModel.handleSignIn(activity) }
+
+                is SignState.NotSignedIn -> SignInScreen(
+                    subState
+                ) { rememberedViewModel.handleSignOut() }
             }
         }
     }
@@ -35,10 +45,6 @@ fun SignScreen(
 @Preview
 fun SignScreenPreview() {
     VKSynergyTheme {
-        SignScreen(
-            viewModel = SignScreenViewModel(),
-            onSignInClick = { },
-            onSignOutClick = { }
-        )
+        SignScreen()
     }
 }

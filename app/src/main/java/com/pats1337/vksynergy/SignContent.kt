@@ -53,7 +53,7 @@ fun SignContent(
                 .padding(top = 24.dp, start = 16.dp, end = 16.dp),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-            onClick = onButtonClick
+            onClick = { onButtonClick }
         ) {
             Text(
                 text = stringResource(id = buttonTextId),
@@ -66,8 +66,9 @@ fun SignContent(
 @Preview
 @Composable
 fun SignContentScreenPreview() {
-    SignContent(iconId = R.drawable.all_inclusive,
+    SignContent(
+        iconId = R.drawable.all_inclusive,
         welcomeText = stringResource(id = R.string.app_name),
-        buttonTextId = R.string.signin,
-        onButtonClick = { })
+        buttonTextId = R.string.signin
+    ) { }
 }

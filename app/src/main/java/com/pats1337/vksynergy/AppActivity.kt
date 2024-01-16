@@ -1,6 +1,5 @@
 package com.pats1337.vksynergy
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -17,18 +16,11 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class AppActivity : ComponentActivity() {
     private val viewModel: SignScreenViewModel by viewModels()
-
-
-    @SuppressLint("StateFlowValueCalledInComposition")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             VKSynergyTheme {
-                SignScreen(
-                    viewModel = viewModel,
-                    onSignInClick = { viewModel.handleSignIn(this@AppActivity) },
-                    onSignOutClick = { viewModel.handleSignOut() }
-                )
+                SignScreen()
             }
         }
     }

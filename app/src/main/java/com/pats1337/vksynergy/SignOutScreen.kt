@@ -6,15 +6,15 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 fun SignOutScreen(state: SignState.SignedIn, onSignOutClick: () -> Unit) {
     SignContent(
-        iconId = R.drawable.person,
+        iconId = state.iconId,
         welcomeText = state.userId.toString(),
-        buttonTextId = R.string.signout,
-        onButtonClick = onSignOutClick
+        buttonTextId = state.buttonTextId,
+        onButtonClick = { onSignOutClick }
     )
 }
 
 @Preview
 @Composable
 fun SignOutScreenPreview() {
-    SignOutScreen(state = SignState.SignedIn()) { }
+    SignOutScreen(state = SignState.SignedIn()) {}
 }
