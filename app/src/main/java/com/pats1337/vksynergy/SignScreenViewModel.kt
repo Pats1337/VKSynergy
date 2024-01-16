@@ -16,13 +16,13 @@ class SignScreenViewModel @Inject constructor() : ViewModel() {
     private val _signState = MutableStateFlow<SignState>(SignState.NotSignedIn())
     val signState: StateFlow<SignState> get() = _signState.asStateFlow()
 
-    fun handleSignIn(activity: AppActivity) {
+    private fun handleSignIn(activity: AppActivity) {
         VK.login(activity, VKScope.values().dropLast(1))
     }
 
     fun handleSignInSuccessful(token: VKAccessToken?) {
         if (token != null) {
-            _signState.value = SignState.SignedIn(token.userId.value)
+            _signState.value = SignState.SignedIn(welcomeText = token.userId.toString())
         }
     }
 
@@ -30,8 +30,15 @@ class SignScreenViewModel @Inject constructor() : ViewModel() {
         _signState.value = SignState.NotSignedIn()
     }
 
-    fun handleSignOut() {
+    private fun handleSignOut() {
         VK.logout()
         _signState.value = SignState.NotSignedIn()
+    }
+
+    fun onSignClick(activity: AppActivity){
+        when(signState.value) {
+            is SignState.SignedIn -> handleSignOut()
+            is SignState.NotSignedIn -> handleSignIn(activity)
+        }
     }
 }
