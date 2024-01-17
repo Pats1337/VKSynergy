@@ -20,17 +20,15 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun SignContent(
-    iconId: Int,
-    welcomeText: String,
-    buttonTextId: Int,
-    onButtonClick: () -> Unit
+    state: SignState,
+    onSignClick: () -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top
     ) {
         Image(
-            painter = painterResource(id = iconId),
+            painter = painterResource(id = state.iconId),
             contentDescription = "icon",
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
@@ -41,7 +39,10 @@ fun SignContent(
         Text(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally),
-            text = welcomeText,
+            text = when (state) {
+                is SignState.NotSignedIn -> stringResource(id = state.welcomeText)
+                is SignState.SignedIn -> state.welcomeText
+            },
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.headlineMedium
         )
@@ -53,10 +54,10 @@ fun SignContent(
                 .padding(top = 24.dp, start = 16.dp, end = 16.dp),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-            onClick = onButtonClick
+            onClick = onSignClick
         ) {
             Text(
-                text = stringResource(id = buttonTextId),
+                text = stringResource(id = state.buttonTextId),
                 style = MaterialTheme.typography.bodyLarge
             )
         }
@@ -66,8 +67,6 @@ fun SignContent(
 @Preview
 @Composable
 fun SignContentScreenPreview() {
-    SignContent(iconId = R.drawable.all_inclusive,
-        welcomeText = stringResource(id = R.string.app_name),
-        buttonTextId = R.string.signin,
-        onButtonClick = { })
+    SignContent(state = SignState.NotSignedIn()) {
+    }
 }

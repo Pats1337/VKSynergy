@@ -5,14 +5,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pats1337.vksynergy.ui.theme.VKSynergyTheme
 
 @Composable
-fun SignScreen(
-    state: SignState, onSignInClick: () -> Unit, onSignOutClick: () -> Unit
-) {
+fun SignScreen() {
+    val viewModel: SignScreenViewModel = viewModel()
+    val activity: AppActivity = LocalContext.current as AppActivity
+    val state by viewModel.signState.collectAsState()
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -20,10 +25,7 @@ fun SignScreen(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Top
         ) {
-            when (state) {
-                is SignState.SignedIn -> SignOutScreen(state, onSignOutClick)
-                is SignState.NotSignedIn -> SignInScreen(onSignInClick)
-            }
+            SignContent(state = state) { viewModel.onSignClick(activity) }
         }
     }
 }
@@ -32,10 +34,6 @@ fun SignScreen(
 @Preview
 fun SignScreenPreview() {
     VKSynergyTheme {
-        SignScreen(
-            state = SignState.NotSignedIn,
-            onSignInClick = { },
-            onSignOutClick = { }
-        )
+        SignScreen()
     }
 }
