@@ -39,7 +39,10 @@ fun SignContent(
         Text(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally),
-            text = if (state is SignState.NotSignedIn) stringResource(id = R.string.app_name) else state.welcomeText,
+            text = when (state) {
+                is SignState.NotSignedIn -> stringResource(id = state.welcomeText)
+                is SignState.SignedIn -> state.welcomeText
+            },
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.headlineMedium
         )
