@@ -21,8 +21,7 @@ class VkLoginController @Inject constructor() : VKAuthCallback {
         _vkLoginControllerState.asStateFlow()
 
     fun onAuthActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (data == null || !VK.onActivityResult(requestCode, resultCode, data, this)) {
-        }
+        VK.onActivityResult(requestCode, resultCode, data, this)
     }
 
     override fun onLogin(token: VKAccessToken) {
