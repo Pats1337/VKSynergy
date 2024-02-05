@@ -4,18 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import com.pats1337.vksynergy.ui.theme.VKSynergyTheme
-import com.vk.api.sdk.VK
-import com.vk.api.sdk.auth.VKAccessToken
-import com.vk.api.sdk.auth.VKAuthCallback
-import com.vk.api.sdk.exceptions.VKAuthException
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class AppActivity : ComponentActivity() {
-    private val viewModel: SignScreenViewModel by viewModels()
+    @Inject
+    lateinit var vkLoginController: VkLoginController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -26,18 +24,7 @@ class AppActivity : ComponentActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val callback = object : VKAuthCallback {
-            override fun onLogin(token: VKAccessToken) {
-                viewModel.handleSignInSuccessful(token)
-            }
-
-            override fun onLoginFailed(authException: VKAuthException) {
-                viewModel.handleSignInFailed(authException)
-            }
-        }
-        if (data == null || !VK.onActivityResult(requestCode, resultCode, data, callback)) {
-            super.onActivityResult(requestCode, resultCode, data)
-        }
+        vkLoginController.onAuthActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data)
     }
-
 }
