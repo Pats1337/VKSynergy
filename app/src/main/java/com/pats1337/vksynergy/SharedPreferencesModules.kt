@@ -11,8 +11,11 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 object SharedPreferencesModules {
+
+    private const val SHARED_PREFERENCES_FILE_NAME = "sharedPreferences"
+
     @Provides
     fun providesSharedPreferences(context: Application): SharedPreferences {
-        return context.getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE)
+        return context.getSharedPreferences(SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE)
     }
 }

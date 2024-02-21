@@ -18,17 +18,21 @@ import javax.inject.Inject
 class VkLoginController @Inject constructor(private val sharedPreferences: SharedPreferences) :
     VKAuthCallback {
 
-    private val _vkLoginControllerState =
+    companion object {
+        private const val VK_ACCESS_TOKEN_KEY = "vk_access_token"
+    }
+
+    private val _state =
         MutableStateFlow<VkLoginControllerState>(VkLoginControllerState.None)
-    val vkLoginControllerState: StateFlow<VkLoginControllerState> =
-        _vkLoginControllerState.asStateFlow()
+    val state: StateFlow<VkLoginControllerState> =
+        _state.asStateFlow()
 
     init {
         val savedToken = getSavedToken()
         if (savedToken != null) {
-            _vkLoginControllerState.value = VkLoginControllerState.SignedIn(savedToken)
+            _state.value = VkLoginControllerState.SignedIn(savedToken)
         } else {
-            _vkLoginControllerState.value = VkLoginControllerState.None
+            _state.value = VkLoginControllerState.None
         }
     }
 
@@ -38,11 +42,11 @@ class VkLoginController @Inject constructor(private val sharedPreferences: Share
 
     override fun onLogin(token: VKAccessToken) {
         saveToken(token)
-        _vkLoginControllerState.value = VkLoginControllerState.SignedIn(token = token)
+        _state.value = VkLoginControllerState.SignedIn(token = token)
     }
 
     override fun onLoginFailed(authException: VKAuthException) {
-        _vkLoginControllerState.value = VkLoginControllerState.Error(authException = authException)
+        _state.value = VkLoginControllerState.Error(authException = authException)
     }
 
     fun signIn(activity: AppActivity) {
@@ -50,20 +54,20 @@ class VkLoginController @Inject constructor(private val sharedPreferences: Share
     }
 
     fun signOut() {
-        sharedPreferences.edit().remove("vk_access_token").apply()
+        sharedPreferences.edit().remove(VK_ACCESS_TOKEN_KEY).apply()
         VK.logout()
-        _vkLoginControllerState.value = VkLoginControllerState.SignedOut
+        _state.value = VkLoginControllerState.SignedOut
     }
 
     private fun saveToken(token: VKAccessToken) {
         val gson = Gson()
         val tokenJson = gson.toJson(token)
-        sharedPreferences.edit().putString("vk_access_token", tokenJson).apply()
+        sharedPreferences.edit().putString(VK_ACCESS_TOKEN_KEY, tokenJson).apply()
     }
 
     private fun getSavedToken(): VKAccessToken? {
         val gson = Gson()
-        val tokenJson = sharedPreferences.getString("vk_access_token", null)
+        val tokenJson = sharedPreferences.getString(VK_ACCESS_TOKEN_KEY, null)
         return if (tokenJson != null) {
             gson.fromJson(tokenJson, VKAccessToken::class.java)
         } else {
