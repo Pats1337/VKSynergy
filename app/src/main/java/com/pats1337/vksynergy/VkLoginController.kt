@@ -1,6 +1,8 @@
 package com.pats1337.vksynergy
 
 import android.content.Intent
+import android.content.SharedPreferences
+import com.google.gson.Gson
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
@@ -13,33 +15,63 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @ActivityRetainedScoped
-class VkLoginController @Inject constructor() : VKAuthCallback {
+class VkLoginController @Inject constructor(private val sharedPreferences: SharedPreferences) :
+    VKAuthCallback {
 
-    private val _vkLoginControllerState =
+    companion object {
+        private const val VK_ACCESS_TOKEN_KEY = "vk_access_token"
+    }
+
+    private val _state =
         MutableStateFlow<VkLoginControllerState>(VkLoginControllerState.None)
-    val vkLoginControllerState: StateFlow<VkLoginControllerState> =
-        _vkLoginControllerState.asStateFlow()
+    val state: StateFlow<VkLoginControllerState> =
+        _state.asStateFlow()
+
+    init {
+        val savedToken = getSavedToken()
+        if (savedToken != null) {
+            _state.value = VkLoginControllerState.SignedIn(savedToken)
+        } else {
+            _state.value = VkLoginControllerState.None
+        }
+    }
 
     fun onAuthActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         VK.onActivityResult(requestCode, resultCode, data, this)
     }
 
     override fun onLogin(token: VKAccessToken) {
-        _vkLoginControllerState.value = VkLoginControllerState.SignedIn(token = token)
+        saveToken(token)
+        _state.value = VkLoginControllerState.SignedIn(token = token)
     }
 
     override fun onLoginFailed(authException: VKAuthException) {
-        _vkLoginControllerState.value = VkLoginControllerState.Error(authException = authException)
+        _state.value = VkLoginControllerState.Error(authException = authException)
     }
-
 
     fun signIn(activity: AppActivity) {
         VK.login(activity, VKScope.values().dropLast(1))
     }
 
     fun signOut() {
+        sharedPreferences.edit().remove(VK_ACCESS_TOKEN_KEY).apply()
         VK.logout()
-        _vkLoginControllerState.value = VkLoginControllerState.SignedOut
+        _state.value = VkLoginControllerState.SignedOut
     }
 
+    private fun saveToken(token: VKAccessToken) {
+        val gson = Gson()
+        val tokenJson = gson.toJson(token)
+        sharedPreferences.edit().putString(VK_ACCESS_TOKEN_KEY, tokenJson).apply()
+    }
+
+    private fun getSavedToken(): VKAccessToken? {
+        val gson = Gson()
+        val tokenJson = sharedPreferences.getString(VK_ACCESS_TOKEN_KEY, null)
+        return if (tokenJson != null) {
+            gson.fromJson(tokenJson, VKAccessToken::class.java)
+        } else {
+            null
+        }
+    }
 }

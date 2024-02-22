@@ -37,7 +37,7 @@ class SignScreenViewModel @Inject constructor(
 
     private fun observeVkLoginControllerState() {
         viewModelScope.launch {
-            vkLoginController.vkLoginControllerState.collect { vkLoginControllerState ->
+            vkLoginController.state.collect { vkLoginControllerState ->
                 handleVkLoginControllerState(vkLoginControllerState)
             }
         }
