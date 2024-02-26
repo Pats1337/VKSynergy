@@ -1,8 +1,9 @@
-package com.pats1337.vksynergy
+package com.pats1337.vksynergy.signScreen
 
 import android.content.Intent
 import android.content.SharedPreferences
 import com.google.gson.Gson
+import com.pats1337.vksynergy.AppActivity
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback

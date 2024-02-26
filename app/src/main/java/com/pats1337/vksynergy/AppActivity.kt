@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.pats1337.vksynergy.signScreen.SignScreen
+import com.pats1337.vksynergy.signScreen.VkLoginController
 import com.pats1337.vksynergy.ui.theme.VKSynergyTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

@@ -1,7 +1,8 @@
-package com.pats1337.vksynergy
+package com.pats1337.vksynergy.signScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pats1337.vksynergy.AppActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

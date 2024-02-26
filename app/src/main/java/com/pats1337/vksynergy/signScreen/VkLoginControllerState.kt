@@ -1,4 +1,4 @@
-package com.pats1337.vksynergy
+package com.pats1337.vksynergy.signScreen
 
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.exceptions.VKAuthException

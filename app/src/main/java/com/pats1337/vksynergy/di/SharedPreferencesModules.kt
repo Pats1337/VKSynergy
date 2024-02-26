@@ -1,4 +1,4 @@
-package com.pats1337.vksynergy
+package com.pats1337.vksynergy.di
 
 import android.app.Application
 import android.content.Context

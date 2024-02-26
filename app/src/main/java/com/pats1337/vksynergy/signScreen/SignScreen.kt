@@ -1,4 +1,4 @@
-package com.pats1337.vksynergy
+package com.pats1337.vksynergy.signScreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.pats1337.vksynergy.AppActivity
 import com.pats1337.vksynergy.ui.theme.VKSynergyTheme
 
 @Composable

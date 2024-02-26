@@ -1,4 +1,6 @@
-package com.pats1337.vksynergy
+package com.pats1337.vksynergy.signScreen
+
+import com.pats1337.vksynergy.R
 
 
 sealed interface SignState {
